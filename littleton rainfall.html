@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>80121 Rainfall</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:#0a0f1e; --surface:#111827; --surface2:#1a2235; --border:#1e2d47;
+      --accent:#38bdf8; --accent2:#818cf8; --rain:#60a5fa;
+      --text:#e2e8f0; --muted:#64748b; --warn:#f59e0b; --good:#34d399; --red:#f87171;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--bg);color:var(--text);font-family:'Syne',sans-serif;min-height:100vh;overflow-x:hidden}
+    body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 60% at 50% -10%,rgba(56,189,248,.07) 0%,transparent 70%),radial-gradient(ellipse 60% 50% at 80% 100%,rgba(129,140,248,.05) 0%,transparent 70%);pointer-events:none;z-index:0}
+    .rd{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+    .drop{position:absolute;width:1px;background:linear-gradient(to bottom,transparent,rgba(96,165,250,.2));animation:fall linear infinite;top:-100px}
+    @keyframes fall{to{transform:translateY(110vh)}}
+    .wrap{position:relative;z-index:1;max-width:600px;margin:0 auto;padding:0 16px 48px}
+    header{padding:28px 0 20px;text-align:center}
+    .badge{display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:4px 14px;font-family:'DM Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:.08em;margin-bottom:12px}
+    h1{font-size:clamp(30px,9vw,46px);font-weight:800;line-height:1.05;letter-spacing:-.02em}
+    h1 span{color:var(--accent)}
+    .sub{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-top:6px;letter-spacing:.05em}
+    .sbar{display:flex;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:10px 16px;margin-bottom:18px;font-family:'DM Mono',monospace;font-size:11px}
+    .dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:6px;background:var(--muted);transition:background .3s}
+    .dot.live{background:var(--good);box-shadow:0 0 6px var(--good);animation:blink 2s infinite}
+    .dot.err{background:var(--red)}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
+    #stxt{color:var(--muted)} #stxt.live{color:var(--good)} #stxt.err{color:var(--red)}
+    #stime{color:var(--muted);font-size:10px}
+    .tabs{display:flex;gap:6px;margin-bottom:18px}
+    .tab{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 4px;text-align:center;font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);cursor:pointer;transition:all .18s;user-select:none}
+    .tab:hover{border-color:var(--accent);color:var(--accent)}
+    .tab.on{background:var(--accent);border-color:var(--accent);color:#0a0f1e;font-weight:600}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:22px 20px;margin-bottom:14px;position:relative;overflow:hidden}
+    .card::before{content:'';position:absolute;top:-30px;right:-30px;width:110px;height:110px;border-radius:50%;background:radial-gradient(circle,rgba(56,189,248,.07) 0%,transparent 70%)}
+    .lbl{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+    .bignum{font-size:clamp(50px,14vw,70px);font-weight:800;line-height:1;letter-spacing:-.03em;color:var(--accent)}
+    .bignum .u{font-size:.35em;font-weight:400;color:var(--muted);vertical-align:middle;margin-left:2px}
+    .plbl{font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);margin-top:6px}
+    .ct{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px}
+    .barchart{display:flex;align-items:flex-end;gap:3px;height:76px}
+    .bw{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;height:100%;justify-content:flex-end}
+    .bar{width:100%;min-height:2px;border-radius:3px 3px 0 0;background:linear-gradient(to top,var(--rain),var(--accent));transition:height .55s cubic-bezier(.34,1.4,.64,1)}
+    .bar.cur{background:linear-gradient(to top,var(--accent2),#c4b5fd)}
+    .blbl{font-family:'DM Mono',monospace;font-size:8px;color:var(--muted);text-align:center;white-space:nowrap;overflow:hidden}
+    .ahead-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
+    .ameta{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;margin-top:3px}
+    .apct{font-size:22px;font-weight:700;letter-spacing:-.02em}
+    .up{color:var(--good)} .dn{color:var(--warn)}
+    .track{background:var(--surface2);border-radius:999px;height:10px;position:relative;overflow:visible;margin-bottom:8px}
+    .fill{height:100%;border-radius:999px;background:linear-gradient(to right,var(--rain),var(--accent));transition:width 1s ease}
+    .pm{position:absolute;top:-5px;width:2px;height:20px;background:var(--warn);border-radius:1px}
+    .pm::after{content:'pace';position:absolute;top:22px;left:50%;transform:translateX(-50%);font-family:'DM Mono',monospace;font-size:8px;color:var(--warn);white-space:nowrap}
+    .astats{display:flex;justify-content:space-between;margin-top:28px}
+    .astat{text-align:center}
+    .asv{font-size:17px;font-weight:700;letter-spacing:-.01em}
+    .asl{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);margin-top:2px}
+    .mrow{display:flex;align-items:center;gap:10px;padding:5px 0;border-bottom:1px solid var(--border)}
+    .mrow:last-child{border-bottom:none}
+    .mn{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);width:28px;flex-shrink:0}
+    .mt{flex:1;background:var(--surface2);border-radius:3px;height:6px;overflow:hidden}
+    .mf{height:100%;border-radius:3px;background:linear-gradient(to right,var(--rain),var(--accent));transition:width .8s ease}
+    .mv{font-family:'DM Mono',monospace;font-size:11px;color:var(--text);width:42px;text-align:right;flex-shrink:0}
+    .note{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);line-height:1.7}
+    .note a{color:var(--accent);text-decoration:none}
+    .lrow{display:flex;align-items:center;gap:10px;padding:9px 0;text-decoration:none;border-bottom:1px solid var(--border);transition:color .2s}
+    .lrow:last-child{border-bottom:none}
+    .lrow:hover .ln{color:var(--accent)}
+    .lic{width:28px;height:28px;background:var(--surface2);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+    .ln{font-size:13px;font-weight:600;color:var(--text);transition:color .2s}
+    .ld{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted)}
+    .errbox{background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.3);border-radius:12px;padding:16px;font-family:'DM Mono',monospace;font-size:12px;color:#fca5a5;margin-bottom:14px;line-height:1.6;display:none}
+    /* Setup card */
+    .setup{background:rgba(56,189,248,.06);border:1px solid rgba(56,189,248,.25);border-radius:16px;padding:20px;margin-bottom:14px}
+    .setup h2{font-size:15px;font-weight:700;margin-bottom:12px;color:var(--accent)}
+    .step{display:flex;gap:10px;margin-bottom:10px;align-items:flex-start}
+    .stepn{background:var(--accent);color:#0a0f1e;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;margin-top:1px}
+    .stepc{font-family:'DM Mono',monospace;font-size:11px;color:var(--text);line-height:1.6}
+    .stepc a{color:var(--accent);text-decoration:none}
+    .stepc code{background:var(--surface2);padding:1px 5px;border-radius:3px;color:var(--accent2)}
+    footer{text-align:center;font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);padding-top:8px;line-height:1.9}
+    .hidden{display:none!important}
+  </style>
+</head>
+<body>
+
+<div class="rd" id="rd"></div>
+
+<div class="wrap">
+  <header>
+    <div class="badge">📍 80121 · LITTLETON, CO</div>
+    <h1>Sky<span>fall</span></h1>
+    <p class="sub">REAL-TIME RAINFALL DASHBOARD · NOAA HRRR MODEL</p>
+  </header>
+
+  <!-- Setup instructions shown only when running from file:// -->
+  <div class="setup" id="setup-card" style="display:none">
+    <h2>⚠️ One-time setup needed</h2>
+    <p style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);margin-bottom:14px;line-height:1.6">
+      Safari blocks network requests from local files. You need to host this page — GitHub Pages is free and takes about 2 minutes.
+    </p>
+    <div class="step"><div class="stepn">1</div><div class="stepc">Go to <a href="https://github.com" target="_blank">github.com</a> and create a free account (or sign in)</div></div>
+    <div class="step"><div class="stepn">2</div><div class="stepc">Click the <strong>+</strong> icon → <strong>New repository</strong>. Name it <code>rainfall</code>. Check <strong>Public</strong>. Click <strong>Create repository</strong>.</div></div>
+    <div class="step"><div class="stepn">3</div><div class="stepc">Click <strong>uploading an existing file</strong> → drag this HTML file in → click <strong>Commit changes</strong></div></div>
+    <div class="step"><div class="stepn">4</div><div class="stepc">Go to <strong>Settings → Pages</strong> → under Source select <strong>Deploy from a branch</strong> → choose <strong>main</strong> → Save</div></div>
+    <div class="step"><div class="stepn">5</div><div class="stepc">After ~60 seconds your URL will be: <code>https://YOUR-USERNAME.github.io/rainfall/littleton_rainfall.html</code> — bookmark that on your iPhone!</div></div>
+    <p style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-top:12px">Alternative: any static host works — Netlify Drop, Cloudflare Pages, or even opening in Safari from iCloud Drive with a local web server app.</p>
+  </div>
+
+  <div class="sbar">
+    <div><span class="dot" id="dot"></span><span id="stxt">Loading…</span></div>
+    <span id="stime"></span>
+  </div>
+
+  <div class="tabs" id="tabs">
+    <div class="tab on" data-p="24h">24 HRS</div>
+    <div class="tab"    data-p="3d">3 DAYS</div>
+    <div class="tab"    data-p="7d">7 DAYS</div>
+    <div class="tab"    data-p="30d">30 DAYS</div>
+    <div class="tab"    data-p="1y">1 YEAR</div>
+  </div>
+
+  <div class="card">
+    <div class="lbl">TOTAL PRECIPITATION</div>
+    <div class="bignum" id="bignum">—<span class="u">in</span></div>
+    <div class="plbl"   id="plbl">—</div>
+  </div>
+
+  <div class="card">
+    <div class="ct" id="ct">BREAKDOWN</div>
+    <div class="barchart" id="chart"></div>
+  </div>
+
+  <div class="card" id="acard">
+    <div class="ahead-row">
+      <div>
+        <div class="lbl">YEAR-TO-DATE vs. AVERAGE</div>
+        <div class="ameta">Based on 14.30" annual avg (NOAA normals)</div>
+      </div>
+      <div class="apct" id="apct">—</div>
+    </div>
+    <div class="track">
+      <div class="fill" id="afill" style="width:0%"></div>
+      <div class="pm"   id="apm"   style="left:0%"></div>
+    </div>
+    <div class="astats">
+      <div class="astat"><div class="asv" id="aytd">—</div><div class="asl">YTD ACTUAL</div></div>
+      <div class="astat"><div class="asv" id="aexp">—</div><div class="asl">EXPECTED</div></div>
+      <div class="astat"><div class="asv">14.30"</div><div class="asl">ANNUAL AVG</div></div>
+    </div>
+  </div>
+
+  <div class="card hidden" id="mocard">
+    <div class="lbl">MONTHLY BREAKDOWN</div>
+    <div id="molist"></div>
+  </div>
+
+  <div class="errbox" id="errbox"></div>
+
+  <div class="card">
+    <div class="lbl" style="margin-bottom:8px">ABOUT THE DATA</div>
+    <div class="note">
+      Precipitation via <strong>NOAA HRRR model</strong> (3 km) through
+      <a href="https://open-meteo.com" target="_blank">Open-Meteo</a> — free, no account needed.
+      HRRR assimilates data from Centennial Airport (KAPA, ~3 mi), the MHFD ALERT gauge
+      network, and NEXRAD radar. For raw ALERT gauge readings use the map links below.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="lbl" style="margin-bottom:4px">DATA SOURCES &amp; REFERENCES</div>
+    <a class="lrow" href="https://alert5.udfcd.org/LDAD/Beta/" target="_blank">
+      <div class="lic">🌧️</div><div><div class="ln">MHFD ALERT GMap</div><div class="ld">Live Denver-area ALERT gauge network</div></div>
+    </a>
+    <a class="lrow" href="https://climate.colostate.edu/maps/precip_map_int.php?len=ytd" target="_blank">
+      <div class="lic">🗺️</div><div><div class="ln">CSU Precip Map</div><div class="ld">Colorado year-to-date precipitation map</div></div>
+    </a>
+    <a class="lrow" href="https://www.globalwarmingdenver.com/tot_precip.html" target="_blank">
+      <div class="lic">📊</div><div><div class="ln">Global Warming Denver</div><div class="ld">Denver annual precipitation trends &amp; history</div></div>
+    </a>
+  </div>
+
+  <footer>
+    KAPA area · 39.614°N 104.988°W · NOAA HRRR via Open-Meteo<br>
+    14.30" annual avg per NCEI 1981–2010 · Provisional · Refreshes on page load
+  </footer>
+</div>
+
+<script>
+var LAT=39.614, LON=-104.988, ANN=14.30;
+var MO=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+var period='24h', hourly=null;
+
+// Rain animation
+(function(){
+  var c=document.getElementById('rd');
+  for(var i=0;i<28;i++){
+    var d=document.createElement('div'); d.className='drop';
+    d.style.cssText='left:'+Math.random()*100+'%;height:'+(15+Math.random()*55)+'px;opacity:'+(0.08+Math.random()*0.18)+';animation-duration:'+(1.4+Math.random()*3)+'s;animation-delay:'+(-Math.random()*4)+'s';
+    c.appendChild(d);
+  }
+})();
+
+// Detect file:// and show setup card
+if(window.location.protocol==='file:'){
+  document.getElementById('setup-card').style.display='block';
+}
+
+// Tabs
+document.getElementById('tabs').addEventListener('click',function(e){
+  var t=e.target.closest('.tab'); if(!t) return;
+  document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on')});
+  t.classList.add('on'); period=t.dataset.p;
+  if(hourly) render();
+});
+
+function setStatus(st,msg){
+  var dot=document.getElementById('dot'),txt=document.getElementById('stxt');
+  dot.className='dot'; txt.className='';
+  if(st==='live'){dot.classList.add('live');txt.classList.add('live');txt.textContent=msg||'Live data';}
+  else if(st==='err'){dot.classList.add('err');txt.classList.add('err');txt.textContent=msg||'Error';}
+  else{txt.textContent=msg||'Loading…';}
+}
+function showErr(msg){var b=document.getElementById('errbox');b.style.display='block';b.textContent=msg;}
+
+function loadData(){
+  setStatus('loading','Fetching data…');
+  var url='https://api.open-meteo.com/v1/forecast'
+    +'?latitude='+LAT+'&longitude='+LON
+    +'&hourly=precipitation'
+    +'&precipitation_unit=inch'
+    +'&timezone=America%2FDenver'
+    +'&past_days=365'
+    +'&forecast_days=1'
+    +'&models=best_match';
+
+  fetch(url)
+    .then(function(r){
+      if(!r.ok) throw new Error('HTTP '+r.status);
+      return r.json();
+    })
+    .then(function(j){
+      if(!j||!j.hourly||!j.hourly.time) throw new Error('Bad response shape');
+      hourly={time:j.hourly.time,precip:j.hourly.precipitation};
+      var now=new Date();
+      document.getElementById('stime').textContent='Updated '+now.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+      setStatus('live');
+      renderAnnual(); render();
+    })
+    .catch(function(e){
+      setStatus('err');
+      var isFile=window.location.protocol==='file:';
+      showErr(isFile
+        ? 'Safari blocks network requests from local files.\nFollow the setup steps above to host this page — it only takes 2 minutes.\n\nError: '+e.message
+        : 'Could not load data. Check your connection and reload.\n\nError: '+e.message
+      );
+      document.getElementById('bignum').innerHTML='<span style="font-size:.4em;color:var(--muted)">unavailable</span>';
+    });
+}
+
+function render(){
+  var now=new Date(),hoursBack,barN,ctLbl;
+  switch(period){
+    case '24h':hoursBack=24; barN=24;ctLbl='HOURLY (LAST 24 HRS)';break;
+    case '3d': hoursBack=72; barN=12;ctLbl='6-HOUR TOTALS (LAST 3 DAYS)';break;
+    case '7d': hoursBack=168;barN=14;ctLbl='12-HOUR TOTALS (LAST 7 DAYS)';break;
+    case '30d':hoursBack=720;barN=30;ctLbl='DAILY TOTALS (LAST 30 DAYS)';break;
+    case '1y': hoursBack=null;barN=12;ctLbl='MONTHLY TOTALS (THIS YEAR)';break;
+  }
+  var time=hourly.time,precip=hourly.precip,total=0,bars=[];
+  if(period==='1y'){
+    var yr=now.getFullYear(),mo=new Array(12).fill(0);
+    for(var i=0;i<time.length;i++){
+      var t=new Date(time[i]);
+      if(t.getFullYear()!==yr)continue;
+      var v=precip[i];if(v==null||isNaN(v))continue;
+      mo[t.getMonth()]+=v;
+    }
+    total=mo.reduce(function(a,b){return a+b;},0);
+    bars=mo.map(function(v,m){return{label:MO[m],val:v};});
+    document.getElementById('mocard').classList.remove('hidden');
+    renderMonthly(mo);
+  } else {
+    document.getElementById('mocard').classList.add('hidden');
+    var cutoff=now.getTime()-hoursBack*3600000,rt=[],rp=[];
+    for(var i=0;i<time.length;i++){
+      var ts=new Date(time[i]).getTime();
+      if(ts<cutoff||ts>now.getTime())continue;
+      rt.push(time[i]);rp.push(precip[i]||0);
+    }
+    total=rp.reduce(function(a,b){return a+b;},0);
+    var bsize=Math.max(1,Math.floor(rt.length/barN));
+    for(var b=0;b<barN;b++){
+      var s=b*bsize,e=Math.min(s+bsize,rt.length);
+      if(s>=rt.length){bars.push({label:'',val:0});continue;}
+      var bTot=rp.slice(s,e).reduce(function(a,v){return a+v;},0);
+      var lbl='';
+      if(rt[s]){var d=new Date(rt[s]);lbl=period==='24h'?d.getHours()+'h':((d.getMonth()+1)+'/'+(d.getDate()));}
+      bars.push({label:lbl,val:bTot});
+    }
+  }
+  document.getElementById('bignum').innerHTML=total.toFixed(2)+'<span class="u">in</span>';
+  var PL={'24h':'Last 24 hours','3d':'Last 3 days','7d':'Last 7 days','30d':'Last 30 days','1y':'Year to date '+now.getFullYear()};
+  document.getElementById('plbl').textContent=PL[period];
+  document.getElementById('ct').textContent=ctLbl;
+  renderBars(bars);
+}
+
+function renderBars(bars){
+  var chart=document.getElementById('chart');chart.innerHTML='';
+  var maxV=Math.max.apply(null,bars.map(function(b){return b.val;}))||0.001;
+  bars.forEach(function(bar,i){
+    var pct=Math.max((bar.val/maxV)*100,bar.val>0?3:1);
+    var w=document.createElement('div');w.className='bw';
+    var b=document.createElement('div');b.className='bar'+(i===bars.length-1?' cur':'');
+    b.style.height=pct+'%';b.title=(bar.label?bar.label+': ':'')+bar.val.toFixed(2)+'"';
+    var l=document.createElement('div');l.className='blbl';l.textContent=bar.label;
+    w.appendChild(b);w.appendChild(l);chart.appendChild(w);
+  });
+}
+
+function renderAnnual(){
+  var time=hourly.time,precip=hourly.precip,now=new Date(),yr=now.getFullYear(),ytd=0;
+  for(var i=0;i<time.length;i++){
+    var t=new Date(time[i]);if(t.getFullYear()!==yr)continue;
+    var v=precip[i];if(v&&!isNaN(v))ytd+=v;
+  }
+  var start=new Date(yr,0,1),doy=Math.floor((now-start)/86400000)+1;
+  var diy=(yr%4===0&&yr%100!==0||yr%400===0)?366:365;
+  var pace=ANN*(doy/diy),diff=ytd-pace,pct=Math.abs(diff/pace*100),ahead=diff>=0;
+  document.getElementById('aytd').textContent=ytd.toFixed(2)+'"';
+  document.getElementById('aexp').textContent=pace.toFixed(2)+'"';
+  var pe=document.getElementById('apct');
+  pe.textContent=(ahead?'+':'-')+pct.toFixed(0)+'%';
+  pe.className='apct '+(ahead?'up':'dn');
+  document.getElementById('afill').style.width=Math.min((ytd/ANN)*100,150)+'%';
+  document.getElementById('apm').style.left=Math.min((doy/diy)*100,97)+'%';
+}
+
+function renderMonthly(mo){
+  var list=document.getElementById('molist');list.innerHTML='';
+  var maxV=Math.max.apply(null,mo)||0.001;
+  mo.forEach(function(v,m){
+    var row=document.createElement('div');row.className='mrow';
+    var nm=document.createElement('div');nm.className='mn';nm.textContent=MO[m];
+    var tr=document.createElement('div');tr.className='mt';
+    var fi=document.createElement('div');fi.className='mf';fi.style.width=((v/maxV)*100)+'%';
+    tr.appendChild(fi);
+    var vl=document.createElement('div');vl.className='mv';vl.textContent=v.toFixed(2)+'"';
+    row.appendChild(nm);row.appendChild(tr);row.appendChild(vl);list.appendChild(row);
+  });
+}
+
+loadData();
+</script>
+</body>
+</html>
