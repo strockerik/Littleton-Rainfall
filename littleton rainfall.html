@@ -13,18 +13,17 @@
     :root{
       --parchment:#f5efe0; --parchment2:#ede4cc; --sand:#d9c89a;
       --clay:#c17f4a; --terracotta:#b85c38; --rust:#8b3a1e;
-      --sage:#6b7c5a; --sky:#7ba7c4; --sky-dark:#4a7a9b;
+      --sky:#7ba7c4; --sky-dark:#4a7a9b;
       --ink:#2c1f0e; --ink-mid:#5c4730; --ink-light:#8c7355;
       --good:#4a7a4a; --warn:#b87a1e; --red:#8b2020;
       --border:#c9b48a; --border-dark:#a08060;
     }
     *{box-sizing:border-box;margin:0;padding:0}
     body{background:var(--parchment);color:var(--ink);font-family:'Zilla Slab',serif;min-height:100vh;overflow-x:hidden}
-    body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:0.6}
+    body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.6}
     .stripe{background:var(--rust);height:6px;background-image:repeating-linear-gradient(90deg,transparent 0,transparent 18px,rgba(255,255,255,.15) 18px,rgba(255,255,255,.15) 20px)}
     .wrap{position:relative;z-index:1;max-width:600px;margin:0 auto;padding:0 16px 48px}
 
-    /* HEADER */
     header{padding:24px 0 20px;text-align:center;border-bottom:2px solid var(--border-dark);margin-bottom:20px}
     header::after{content:'✦  ✦  ✦';display:block;font-size:10px;color:var(--clay);letter-spacing:6px;margin-top:10px}
     .loc-badge{display:inline-flex;align-items:center;gap:5px;background:var(--rust);color:var(--parchment);border-radius:3px;padding:3px 12px;font-family:'Inconsolata',monospace;font-size:11px;letter-spacing:.12em;margin-bottom:10px}
@@ -32,54 +31,60 @@
     .h1-sub{font-family:'Zilla Slab',serif;font-size:13px;font-weight:600;color:var(--ink-mid);letter-spacing:.08em;text-transform:uppercase;margin-top:4px}
     .sub{font-family:'Inconsolata',monospace;font-size:10px;color:var(--ink-light);margin-top:5px;letter-spacing:.06em}
 
-    /* STATUS */
     .sbar{display:flex;align-items:center;justify-content:space-between;background:var(--parchment2);border:1px solid var(--border-dark);border-radius:4px;padding:9px 14px;margin-bottom:16px;font-family:'Inconsolata',monospace;font-size:11px}
     .dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:6px;background:var(--ink-light);transition:background .3s}
     .dot.live{background:var(--good);box-shadow:0 0 6px rgba(74,122,74,.5);animation:blink 2.5s infinite}
-    .dot.partial{background:var(--warn);box-shadow:0 0 6px rgba(184,122,30,.4)}
+    .dot.partial{background:var(--warn)}
     .dot.err{background:var(--red)}
     @keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
     #stxt{color:var(--ink-mid)} #stxt.live{color:var(--good)} #stxt.partial{color:var(--warn)} #stxt.err{color:var(--red)}
     #stime{color:var(--ink-light);font-size:10px}
 
-    /* TABS */
     .tabs{display:flex;gap:5px;margin-bottom:16px}
     .tab{flex:1;background:var(--parchment2);border:1px solid var(--border-dark);border-radius:3px;padding:8px 3px;text-align:center;font-family:'Inconsolata',monospace;font-size:11px;color:var(--ink-mid);cursor:pointer;transition:all .15s;user-select:none}
     .tab:hover{background:var(--sand);border-color:var(--clay);color:var(--rust)}
     .tab.on{background:var(--rust);border-color:var(--rust);color:var(--parchment);font-weight:500}
 
-    /* CARDS */
     .card{background:var(--parchment2);border:1px solid var(--border-dark);border-radius:4px;padding:20px 18px;margin-bottom:12px;position:relative}
     .card::before,.card::after{content:'';position:absolute;width:10px;height:10px;border-color:var(--clay);border-style:solid}
     .card::before{top:5px;left:5px;border-width:1px 0 0 1px}
     .card::after{bottom:5px;right:5px;border-width:0 1px 1px 0}
     .lbl{font-family:'Inconsolata',monospace;font-size:10px;color:var(--ink-light);letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px;padding-bottom:6px;border-bottom:1px dashed var(--border)}
 
-    /* DUAL STATION TOTAL CARD */
+    /* DUAL STATION BOXES — always shown */
     .stations-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
-    .station-box{background:var(--parchment);border:1px solid var(--border);border-radius:3px;padding:10px 12px;text-align:center}
-    .station-box.primary{border-color:var(--sky-dark);background:rgba(74,122,155,.06)}
-    .station-name{font-family:'Inconsolata',monospace;font-size:9px;color:var(--ink-light);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
-    .station-val{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--rust);line-height:1}
-    .station-val .su{font-family:'Zilla Slab',serif;font-size:.45em;font-weight:500;color:var(--ink-light);vertical-align:middle;margin-left:2px}
-    .station-na{font-family:'Inconsolata',monospace;font-size:11px;color:var(--ink-light);margin-top:4px}
+    .sbox{background:var(--parchment);border:1px solid var(--border);border-radius:3px;padding:10px 12px;text-align:center}
+    .sbox.near{border-color:var(--terracotta);background:rgba(184,92,56,.05)}
+    .sbox-name{font-family:'Inconsolata',monospace;font-size:9px;color:var(--ink-light);letter-spacing:.07em;text-transform:uppercase;margin-bottom:5px;line-height:1.4}
+    .sbox-val{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;line-height:1;color:var(--rust)}
+    .sbox-val .su{font-family:'Zilla Slab',serif;font-size:.42em;font-weight:500;color:var(--ink-light);vertical-align:middle;margin-left:2px}
+    .sbox-sub{font-family:'Inconsolata',monospace;font-size:9px;color:var(--ink-light);margin-top:3px}
 
-    .avg-row{text-align:center;padding:10px 0 4px;border-top:1px dashed var(--border);margin-top:4px}
-    .avg-lbl{font-family:'Inconsolata',monospace;font-size:9px;color:var(--ink-light);letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px}
-    .bignum{font-family:'Playfair Display',serif;font-size:clamp(52px,15vw,76px);font-weight:900;line-height:1;letter-spacing:-.02em;color:var(--rust)}
+    .avg-divider{text-align:center;padding:8px 0 4px;border-top:1px dashed var(--border);margin-top:2px}
+    .avg-lbl{font-family:'Inconsolata',monospace;font-size:9px;color:var(--ink-light);letter-spacing:.1em;text-transform:uppercase;margin-bottom:2px}
+    .bignum{font-family:'Playfair Display',serif;font-size:clamp(48px,13vw,70px);font-weight:900;line-height:1;letter-spacing:-.02em;color:var(--rust)}
     .bignum .u{font-family:'Zilla Slab',serif;font-size:.32em;font-weight:500;color:var(--ink-light);vertical-align:middle;margin-left:3px}
     .plbl{font-family:'Inconsolata',monospace;font-size:11px;color:var(--ink-light);margin-top:4px}
 
-    /* BAR CHART */
+    /* BAR CHART — dual bars per day */
     .ct{font-family:'Inconsolata',monospace;font-size:10px;color:var(--ink-light);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px}
-    .barchart{display:flex;align-items:flex-end;gap:3px;height:90px;position:relative}
-    .bw{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;height:100%;justify-content:flex-end;cursor:pointer;position:relative}
-    .bar{width:100%;min-height:2px;border-radius:2px 2px 0 0;background:linear-gradient(to top,var(--sky-dark),var(--sky));transition:height .5s cubic-bezier(.34,1.3,.64,1)}
-    .bw.active .bar,.bw:hover .bar{background:linear-gradient(to top,var(--rust),var(--clay))}
-    .blbl{font-family:'Inconsolata',monospace;font-size:8px;color:var(--ink-light);text-align:center;white-space:nowrap;overflow:hidden}
-    .bar-tooltip{position:absolute;bottom:calc(100% + 3px);left:50%;transform:translateX(-50%);background:var(--ink);color:var(--parchment);font-family:'Inconsolata',monospace;font-size:10px;padding:3px 7px;border-radius:2px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .15s;z-index:20}
+    .barchart{display:flex;align-items:flex-end;gap:4px;height:90px}
+    .bgroup{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;height:100%;justify-content:flex-end;cursor:pointer;position:relative}
+    .bpair{display:flex;gap:1px;align-items:flex-end;width:100%;justify-content:center}
+    .bar{flex:1;min-height:2px;border-radius:2px 2px 0 0;transition:height .5s cubic-bezier(.34,1.3,.64,1)}
+    .bar.kapa{background:linear-gradient(to top,var(--sky-dark),var(--sky))}
+    .bar.coco{background:linear-gradient(to top,#8b3a1e,#c17f4a)}
+    .bar.zero{height:2px!important;background:var(--border);opacity:.5}
+    .bgroup:hover .bar,.bgroup.active .bar{opacity:.85;filter:brightness(1.08)}
+    .blbl{font-family:'Inconsolata',monospace;font-size:8px;color:var(--ink-light);text-align:center;white-space:nowrap;overflow:hidden;width:100%}
+    .bar-tooltip{position:absolute;bottom:calc(100% + 3px);left:50%;transform:translateX(-50%);background:var(--ink);color:var(--parchment);font-family:'Inconsolata',monospace;font-size:10px;padding:4px 8px;border-radius:2px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .15s;z-index:20;line-height:1.5}
     .bar-tooltip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:4px solid transparent;border-top-color:var(--ink)}
-    .bw.active .bar-tooltip{opacity:1}
+    .bgroup.active .bar-tooltip{opacity:1}
+
+    /* chart legend */
+    .chart-legend{display:flex;gap:14px;margin-top:8px}
+    .cl-item{display:flex;align-items:center;gap:5px;font-family:'Inconsolata',monospace;font-size:9px;color:var(--ink-mid)}
+    .cl-swatch{width:10px;height:10px;border-radius:2px;flex-shrink:0}
 
     /* ANNUAL */
     .ahead-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
@@ -95,31 +100,27 @@
     .asl{font-family:'Inconsolata',monospace;font-size:9px;color:var(--ink-light);margin-top:2px;letter-spacing:.06em}
 
     /* MONTHLY */
-    .mrow{display:flex;align-items:center;gap:10px;padding:5px 0;border-bottom:1px dashed var(--border)}
+    .mrow{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px dashed var(--border)}
     .mrow:last-child{border-bottom:none}
     .mn{font-family:'Inconsolata',monospace;font-size:11px;color:var(--ink-mid);width:28px;flex-shrink:0}
-    .mt{flex:1;background:var(--sand);border-radius:2px;height:6px;overflow:hidden;border:1px solid var(--border)}
-    .mf{height:100%;border-radius:2px;background:linear-gradient(to right,var(--sky-dark),var(--sky));transition:width .8s ease}
-    .mv{font-family:'Inconsolata',monospace;font-size:11px;color:var(--ink);width:42px;text-align:right;flex-shrink:0}
+    .mbars{flex:1;display:flex;flex-direction:column;gap:2px}
+    .mtrack{background:var(--sand);border-radius:2px;height:5px;overflow:hidden;border:1px solid var(--border)}
+    .mfill-kapa{height:100%;border-radius:2px;background:linear-gradient(to right,var(--sky-dark),var(--sky));transition:width .8s ease}
+    .mfill-coco{height:100%;border-radius:2px;background:linear-gradient(to right,var(--rust),var(--clay));transition:width .8s ease}
+    .mvals{display:flex;gap:6px;justify-content:flex-end;width:88px;flex-shrink:0}
+    .mv{font-family:'Inconsolata',monospace;font-size:10px;width:38px;text-align:right}
+    .mv.kapa{color:var(--sky-dark)}
+    .mv.coco{color:var(--rust)}
 
     /* FORECAST */
     .forecast-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
     .fday{background:var(--parchment);border:1px solid var(--border);border-radius:3px;padding:8px 3px;text-align:center}
-    .fday-name{font-family:'Inconsolata',monospace;font-size:9px;color:var(--ink-light);margin-bottom:4px;letter-spacing:.04em}
+    .fday-name{font-family:'Inconsolata',monospace;font-size:9px;color:var(--ink-light);margin-bottom:4px}
     .fday-icon{font-size:16px;margin-bottom:3px;line-height:1}
     .fday-hi{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--rust)}
     .fday-lo{font-family:'Inconsolata',monospace;font-size:10px;color:var(--ink-light);margin-top:1px}
     .fday-pop{font-family:'Inconsolata',monospace;font-size:9px;color:var(--sky-dark);margin-top:3px}
 
-    /* SOURCE LEGEND */
-    .src-legend{display:flex;gap:12px;margin-top:10px;flex-wrap:wrap}
-    .src-item{display:flex;align-items:center;gap:5px;font-family:'Inconsolata',monospace;font-size:10px;color:var(--ink-mid)}
-    .src-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-    .src-kapa{background:var(--sky-dark)}
-    .src-cocorahs{background:var(--terracotta)}
-    .src-avg{background:var(--rust)}
-
-    /* LINKS & NOTE */
     .note{font-family:'Inconsolata',monospace;font-size:11px;color:var(--ink-mid);line-height:1.75}
     .note strong{color:var(--ink);font-family:'Zilla Slab',serif;font-size:12px}
     .note a{color:var(--rust);text-decoration:none}
@@ -153,39 +154,43 @@
   </div>
 
   <div class="tabs" id="tabs">
-    <div class="tab on" data-p="24h">24 HRS</div>
+    <div class="tab on" data-p="1d">TODAY</div>
     <div class="tab"    data-p="3d">3 DAYS</div>
     <div class="tab"    data-p="7d">7 DAYS</div>
     <div class="tab"    data-p="30d">30 DAYS</div>
     <div class="tab"    data-p="1y">1 YEAR</div>
   </div>
 
-  <!-- Main total card -->
+  <!-- Main totals card — always dual -->
   <div class="card">
     <div class="lbl" id="main-lbl">Total Precipitation</div>
-    <!-- dual station comparison row (shown for 30d/1y) -->
-    <div class="stations-row hidden" id="stations-row">
-      <div class="station-box">
-        <div class="station-name">KAPA Airport</div>
-        <div class="station-val" id="kapa-val">—<span class="su">in</span></div>
+    <div class="stations-row">
+      <div class="sbox">
+        <div class="sbox-name">KAPA<br>Airport (~3 mi)</div>
+        <div class="sbox-val" id="kapa-val">—<span class="su">in</span></div>
+        <div class="sbox-sub" id="kapa-sub">ASOS gauge</div>
       </div>
-      <div class="station-box primary">
-        <div class="station-name">CO-AR-164 (Near You)</div>
-        <div class="station-val" id="coco-val">—<span class="su">in</span></div>
+      <div class="sbox near">
+        <div class="sbox-name">CO-AR-164<br>Centennial 3.7 W</div>
+        <div class="sbox-val" id="coco-val">—<span class="su">in</span></div>
+        <div class="sbox-sub" id="coco-sub">CoCoRaHS daily</div>
       </div>
     </div>
-    <div class="avg-row" id="avg-row-lbl" style="display:none">
+    <div class="avg-divider">
       <div class="avg-lbl">2-Station Average</div>
     </div>
     <div class="bignum" id="bignum">—<span class="u">in</span></div>
     <div class="plbl" id="plbl">—</div>
-    <div class="src-legend" id="src-legend"></div>
   </div>
 
   <!-- Bar chart -->
   <div class="card">
-    <div class="ct" id="ct">Breakdown</div>
+    <div class="ct" id="ct">Daily Breakdown</div>
     <div class="barchart" id="chart"></div>
+    <div class="chart-legend">
+      <div class="cl-item"><div class="cl-swatch" style="background:var(--sky-dark)"></div>KAPA Airport</div>
+      <div class="cl-item"><div class="cl-swatch" style="background:var(--rust)"></div>CO-AR-164 (near you)</div>
+    </div>
   </div>
 
   <!-- Annual vs average -->
@@ -193,7 +198,7 @@
     <div class="ahead-row">
       <div>
         <div class="lbl">Year-to-Date vs. Average</div>
-        <div class="ameta">17.5" annual avg · Littleton NOAA normals</div>
+        <div class="ameta">17.5" annual avg · Littleton NOAA normals · 2-station avg</div>
       </div>
       <div class="apct" id="apct">—</div>
     </div>
@@ -210,7 +215,11 @@
 
   <!-- Monthly (1y only) -->
   <div class="card hidden" id="mocard">
-    <div class="lbl">Monthly Breakdown · 2-Station Average</div>
+    <div class="lbl">Monthly Breakdown</div>
+    <div style="display:flex;gap:14px;margin-bottom:10px">
+      <div class="cl-item"><div class="cl-swatch" style="background:var(--sky-dark)"></div>KAPA</div>
+      <div class="cl-item"><div class="cl-swatch" style="background:var(--rust)"></div>CO-AR-164</div>
+    </div>
     <div id="molist"></div>
   </div>
 
@@ -225,9 +234,9 @@
   <div class="card">
     <div class="lbl">About the Data</div>
     <div class="note">
-      <strong>24h / 3d / 7d:</strong> KAPA ASOS hourly tipping-bucket gauge (Centennial Airport, ~3 mi east) via Iowa State IEM.<br><br>
-      <strong>30d / 1y:</strong> Average of KAPA ASOS daily totals + CO-AR-164 (Centennial 3.7 W, near your home) CoCoRaHS daily gauge readings. CO-AR-164 has reported since 2005 with 97% coverage.<br><br>
-      <strong>YTD comparison:</strong> 2-station average vs. 17.5" Littleton NOAA normal.<br><br>
+      <strong>KAPA Airport</strong> — ASOS tipping-bucket gauge at Centennial Airport (~3 mi east), daily totals summed from hourly readings via Iowa State IEM archive.<br><br>
+      <strong>CO-AR-164</strong> — CoCoRaHS volunteer gauge at Centennial 3.7 W, near your home. Daily readings reported once per morning. Active since Nov 2005, 97% coverage.<br><br>
+      <strong>Note:</strong> CoCoRaHS reports lag by ~1 day (observer reads gauge each morning). Today's CO-AR-164 reading won't appear until tomorrow.<br><br>
       <strong>Forecast:</strong> Official NWS 7-day for your grid point.
     </div>
   </div>
@@ -247,7 +256,7 @@
       <div class="lic">🏡</div><div><div class="ln">CO-AR-164 · Centennial 3.7 W</div><div class="ld">Your neighborhood CoCoRaHS station</div></div>
     </a>
     <a class="lrow" href="https://mesonet.agron.iastate.edu/sites/site.php?station=KAPA&network=CO_ASOS" target="_blank">
-      <div class="lic">📡</div><div><div class="ln">IEM KAPA Station</div><div class="ld">Iowa State ASOS archive — raw hourly gauge data</div></div>
+      <div class="lic">📡</div><div><div class="ln">IEM KAPA Station</div><div class="ld">Iowa State ASOS archive — raw gauge data</div></div>
     </a>
   </div>
 
@@ -260,16 +269,15 @@
 <div class="stripe"></div>
 
 <script>
-// ── CONFIG ───────────────────────────────────────────────────────
 var ANN=17.5, LAT=39.614, LON=-104.988;
 var MO=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 var DAY=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-var TRACE=0.005; // inches below which we treat as zero/trace
-var period='24h';
+var TRACE=0.005;
+var period='1d';
 
-// Data stores
-var kapaObs=[];    // [{ts:Date(UTC), p:inches}] hourly — from IEM ASOS
-var cocoDaily=[];  // [{date:'YYYY-MM-DD', p:inches}] daily — from IEM CoCoRaHS
+// Daily totals keyed by "YYYY-MM-DD" (Mountain time)
+var kapaDailyMap={};   // from ASOS hourly, summed to daily
+var cocoDailyMap={};   // from CoCoRaHS daily CSV
 var activeBar=null;
 
 // ── Apple Touch Icon ─────────────────────────────────────────────
@@ -284,7 +292,6 @@ var activeBar=null;
     x.lineTo(0,r);x.quadraticCurveTo(0,0,r,0);x.closePath();x.fill();
     x.fillStyle='#f5efe0';x.fillRect(16,16,148,148);
     x.strokeStyle='#8b3a1e';x.lineWidth=3;x.strokeRect(22,22,136,136);
-    // Raindrop
     x.fillStyle='#4a7a9b';
     x.beginPath();x.arc(90,75,20,0,Math.PI*2);x.fill();
     x.beginPath();x.moveTo(90,105);x.quadraticCurveTo(70,87,69,74);
@@ -300,22 +307,26 @@ var activeBar=null;
 function pad(n){return n<10?'0'+n:String(n);}
 function isLeap(y){return(y%4===0&&y%100!==0)||y%400===0;}
 
-// Parse IEM "YYYY-MM-DD HH:MM" (Mountain Daylight Time = UTC-6) → UTC Date
+// Parse IEM MT timestamp → UTC Date
 function parseIEMTime(str){
   var m=str.match(/^(\d{4})-(\d{2})-(\d{2})\s+(\d{2}):(\d{2})/);
   if(!m)return null;
   return new Date(Date.UTC(parseInt(m[1]),parseInt(m[2])-1,parseInt(m[3]),parseInt(m[4])+6,parseInt(m[5])));
 }
 
-// Convert UTC Date → MT components (UTC-6 MDT)
-function toMT(utcDate){
+// UTC Date → MT date string YYYY-MM-DD
+function mtDate(utcDate){
   var mt=new Date(utcDate.getTime()-6*3600000);
-  return{yr:mt.getUTCFullYear(),mo:mt.getUTCMonth(),dy:mt.getUTCDate(),hr:mt.getUTCHours()};
+  return mt.getUTCFullYear()+'-'+pad(mt.getUTCMonth()+1)+'-'+pad(mt.getUTCDate());
 }
 
-// Format a date as YYYY-MM-DD in MT
-function mtDateStr(utcDate){
-  var m=toMT(utcDate);return m.yr+'-'+pad(m.mo+1)+'-'+pad(m.dy);
+// Build a list of date strings for the last N days (inclusive today) in MT
+function lastNDates(n){
+  var now=new Date(), list=[];
+  for(var i=n-1;i>=0;i--){
+    list.push(mtDate(new Date(now.getTime()-i*86400000)));
+  }
+  return list;
 }
 
 // ── Status ───────────────────────────────────────────────────────
@@ -329,40 +340,35 @@ function setStatus(st,msg){
 }
 function showErr(msg){var b=document.getElementById('errbox');b.style.display='block';b.textContent+=msg+'\n';}
 
-// ── Fetch KAPA hourly from IEM ASOS ─────────────────────────────
+// ── Fetch KAPA hourly → aggregate to daily ───────────────────────
 function fetchKAPA(){
   var now=new Date(),yr=now.getUTCFullYear();
   var url='https://mesonet.agron.iastate.edu/cgi-bin/request/asos.py'
     +'?station=KAPA&data=p01i'
     +'&year1='+yr+'&month1=1&day1=1&hour1=0&minute1=0'
-    +'&year2='+now.getUTCFullYear()+'&month2='+(now.getUTCMonth()+1)
+    +'&year2='+yr+'&month2='+(now.getUTCMonth()+1)
     +'&day2='+now.getUTCDate()+'&hour2='+now.getUTCHours()+'&minute2='+now.getUTCMinutes()
     +'&tz=America%2FDenver&format=onlycomma&latlon=no&elev=no'
     +'&missing=empty&trace=0.0001&direct=no&report_type=3';
   return fetch(url)
     .then(function(r){if(!r.ok)throw new Error('KAPA HTTP '+r.status);return r.text();})
-    .then(function(csv){kapaObs=parseKAPA(csv);});
+    .then(function(csv){
+      var lines=csv.split('\n');
+      for(var i=0;i<lines.length;i++){
+        var line=lines[i].trim();
+        if(!line||line.charAt(0)==='#'||line.indexOf('station')===0)continue;
+        var parts=line.split(',');if(parts.length<3)continue;
+        var ts=parseIEMTime(parts[1].trim());if(!ts)continue;
+        var p=parseFloat(parts[2].trim());
+        if(isNaN(p)||p<0||p<TRACE)p=0;
+        var dk=mtDate(ts);
+        kapaDailyMap[dk]=(kapaDailyMap[dk]||0)+p;
+      }
+    });
 }
 
-function parseKAPA(csv){
-  var lines=csv.split('\n'),result=[];
-  for(var i=0;i<lines.length;i++){
-    var line=lines[i].trim();
-    if(!line||line.charAt(0)==='#'||line.indexOf('station')===0)continue;
-    var parts=line.split(',');if(parts.length<3)continue;
-    var ts=parseIEMTime(parts[1].trim());if(!ts)continue;
-    var p=parseFloat(parts[2].trim());
-    if(isNaN(p)||p<0)p=0;
-    if(p<TRACE)p=0;
-    result.push({ts:ts,p:p});
-  }
-  return result.sort(function(a,b){return a.ts-b.ts;});
-}
-
-// ── Fetch CO-AR-164 daily from IEM CoCoRaHS ──────────────────────
-// IEM CoCoRaHS daily API: request/daily.phtml with network=CO_COCORAHS
-// Returns CSV with columns: station, day, precip (inches)
-function fetchCoCoRaHS(){
+// ── Fetch CoCoRaHS daily ─────────────────────────────────────────
+function fetchCoCo(){
   var now=new Date(),yr=now.getUTCFullYear();
   var url='https://mesonet.agron.iastate.edu/cgi-bin/request/daily.py'
     +'?network=CO_COCORAHS&station=CO-AR-164'
@@ -371,252 +377,186 @@ function fetchCoCoRaHS(){
     +'&var=precip&format=csv';
   return fetch(url)
     .then(function(r){if(!r.ok)throw new Error('CoCoRaHS HTTP '+r.status);return r.text();})
-    .then(function(csv){cocoDaily=parseCoCoRaHS(csv);});
+    .then(function(csv){
+      var lines=csv.split('\n'),header=[];
+      for(var i=0;i<lines.length;i++){
+        var line=lines[i].trim();
+        if(!line||line.charAt(0)==='#')continue;
+        if(!header.length){header=line.split(',').map(function(s){return s.trim().toLowerCase();});continue;}
+        var parts=line.split(',');
+        var dayIdx=header.indexOf('day'), pIdx=header.indexOf('precip');
+        if(dayIdx<0||pIdx<0||parts.length<=Math.max(dayIdx,pIdx))continue;
+        var day=parts[dayIdx].trim(), p=parseFloat(parts[pIdx]);
+        if(!day||isNaN(p)||p<0)continue;
+        if(p<TRACE)p=0;
+        cocoDailyMap[day]=p;
+      }
+    });
 }
 
-function parseCoCoRaHS(csv){
-  var lines=csv.split('\n'),result=[];
-  // Header line contains column names; find 'precip' column index
-  var header=[];
-  for(var i=0;i<lines.length;i++){
-    var line=lines[i].trim();
-    if(!line||line.charAt(0)==='#')continue;
-    if(!header.length){header=line.split(',').map(function(s){return s.trim().toLowerCase();});continue;}
-    var parts=line.split(',');if(parts.length<2)continue;
-    // Find day and precip columns
-    var dayIdx=header.indexOf('day');
-    var pIdx=header.indexOf('precip');
-    if(dayIdx<0||pIdx<0)continue;
-    var day=parts[dayIdx]?parts[dayIdx].trim():'';
-    var p=parseFloat(parts[pIdx]);
-    if(!day||isNaN(p)||p<0)continue;
-    if(p<TRACE)p=0;
-    result.push({date:day,p:p});
-  }
-  return result;
-}
-
-// ── Main load ────────────────────────────────────────────────────
+// ── Load ─────────────────────────────────────────────────────────
 function loadData(){
-  setStatus('loading','Fetching station data…');
+  setStatus('loading','Fetching gauge data…');
   var kapaDone=false,cocoDone=false,kapaOk=false,cocoOk=false;
 
-  function tryDone(){
+  function tryFinish(){
     if(!kapaDone||!cocoDone)return;
-    var now=new Date();
-    document.getElementById('stime').textContent='Updated '+now.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+    document.getElementById('stime').textContent='Updated '+new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
     if(kapaOk&&cocoOk)setStatus('live','Live · KAPA + CO-AR-164');
     else if(kapaOk)setStatus('partial','KAPA only (CoCoRaHS unavailable)');
     else if(cocoOk)setStatus('partial','CO-AR-164 only (KAPA unavailable)');
     else{setStatus('err');return;}
-    renderAnnual();render();
+    renderAnnual();
+    render();
   }
 
-  fetchKAPA()
-    .then(function(){kapaOk=true;})
-    .catch(function(e){showErr('KAPA gauge: '+e.message);})
-    .finally(function(){kapaDone=true;tryDone();});
-
-  fetchCoCoRaHS()
-    .then(function(){cocoOk=true;})
-    .catch(function(e){showErr('CoCoRaHS CO-AR-164: '+e.message);})
-    .finally(function(){cocoDone=true;tryDone();});
-
+  fetchKAPA().then(function(){kapaOk=true;}).catch(function(e){showErr('KAPA: '+e.message);}).finally(function(){kapaDone=true;tryFinish();});
+  fetchCoCo().then(function(){cocoOk=true;}).catch(function(e){showErr('CoCoRaHS: '+e.message);}).finally(function(){cocoDone=true;tryFinish();});
   fetchForecast().catch(function(e){
     document.getElementById('fccard').innerHTML='<div class="lbl">7-Day Forecast</div><div style="font-family:Inconsolata,monospace;font-size:11px;color:var(--ink-light);margin-top:8px">Forecast unavailable — '+e.message+'</div>';
   });
 }
 
 // ── Tabs ─────────────────────────────────────────────────────────
-document.addEventListener('click',function(e){if(!e.target.closest('.bw'))clearActive();});
+document.addEventListener('click',function(e){if(!e.target.closest('.bgroup'))clearActive();});
 function clearActive(){if(activeBar){activeBar.classList.remove('active');activeBar=null;}}
-
 document.getElementById('tabs').addEventListener('click',function(e){
   var t=e.target.closest('.tab');if(!t)return;
   document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on')});
   t.classList.add('on');period=t.dataset.p;
-  if(kapaObs.length||cocoDaily.length)render();
+  if(Object.keys(kapaDailyMap).length||Object.keys(cocoDailyMap).length)render();
 });
 
 // ── Render ───────────────────────────────────────────────────────
 function render(){
-  var now=new Date(),useDual=(period==='30d'||period==='1y');
-  var hoursBack,barN,ctLbl;
+  var now=new Date();
+  var days, ctLbl, periodLabel;
   switch(period){
-    case '24h':hoursBack=24; barN=24;ctLbl='Hourly · KAPA Gauge · Last 24 Hrs';break;
-    case '3d': hoursBack=72; barN=12;ctLbl='6-Hour Totals · KAPA Gauge · Last 3 Days';break;
-    case '7d': hoursBack=168;barN=14;ctLbl='12-Hour Totals · KAPA Gauge · Last 7 Days';break;
-    case '30d':hoursBack=720;barN=30;ctLbl='Daily Totals · 2-Station Avg · Last 30 Days';break;
-    case '1y': hoursBack=null;barN=12;ctLbl='Monthly Totals · 2-Station Avg · This Year';break;
+    case '1d':  days=1;  ctLbl='Today · Daily Gauge Totals';                periodLabel='Today';break;
+    case '3d':  days=3;  ctLbl='Daily Totals · Last 3 Days';                periodLabel='Last 3 days';break;
+    case '7d':  days=7;  ctLbl='Daily Totals · Last 7 Days';                periodLabel='Last 7 days';break;
+    case '30d': days=30; ctLbl='Daily Totals · Last 30 Days';               periodLabel='Last 30 days';break;
+    case '1y':  days=null;ctLbl='Monthly Totals · This Year';               periodLabel='Year to date '+now.getFullYear();break;
   }
 
-  // Show/hide dual-station UI
-  var stRow=document.getElementById('stations-row');
-  var avgRowLbl=document.getElementById('avg-row-lbl');
-  var legend=document.getElementById('src-legend');
-  if(useDual){stRow.classList.remove('hidden');avgRowLbl.style.display='block';}
-  else{stRow.classList.add('hidden');avgRowLbl.style.display='none';}
+  var dateList = days ? lastNDates(days) : null;
 
-  var total=0,bars=[],kapaTotal=null,cocoTotal=null;
+  // Compute totals
+  var kapaTotal=0, cocoTotal=0, cocoCount=0;
 
   if(period==='1y'){
-    document.getElementById('mocard').classList.remove('hidden');
     var yr=now.getFullYear();
-    // KAPA monthly (from hourly obs)
-    var kapaMo=new Array(12).fill(0);
-    kapaObs.forEach(function(o){var m=toMT(o.ts);if(m.yr===yr)kapaMo[m.mo]+=o.p;});
-    // CoCoRaHS monthly (from daily obs)
-    var cocoMo=new Array(12).fill(0);
-    cocoDaily.forEach(function(d){
-      var m=d.date.match(/^(\d{4})-(\d{2})-(\d{2})/);
-      if(m&&parseInt(m[1])===yr)cocoMo[parseInt(m[2])-1]+=d.p;
-    });
-    kapaTotal=kapaMo.reduce(function(a,b){return a+b;},0);
-    cocoTotal=cocoMo.reduce(function(a,b){return a+b;},0);
-
-    // Average monthly
-    var avgMo=kapaMo.map(function(v,i){
-      var n=0,s=0;
-      if(v>0||kapaMo[i]>=0){s+=kapaMo[i];n++;}
-      if(cocoMo[i]>0||cocoDaily.length>0){s+=cocoMo[i];n++;}
-      return n>0?s/n:v;
-    });
-    // If one source is missing entirely, just use what we have
-    if(!kapaObs.length)avgMo=cocoMo;
-    if(!cocoDaily.length)avgMo=kapaMo;
-    total=avgMo.reduce(function(a,b){return a+b;},0);
-    bars=avgMo.map(function(v,m){return{label:MO[m],val:v};});
-    renderMonthly(avgMo);
-
-  } else if(period==='30d'){
-    document.getElementById('mocard').classList.add('hidden');
-    var cutoff=new Date(now.getTime()-hoursBack*3600000);
-    // Build KAPA daily totals
-    var kapaDays={};
-    kapaObs.forEach(function(o){
-      if(o.ts<cutoff||o.ts>now)return;
-      var k=mtDateStr(o.ts);
-      kapaDays[k]=(kapaDays[k]||0)+o.p;
-    });
-    // Build CoCoRaHS daily totals map
-    var cocoDays={};
-    cocoDaily.forEach(function(d){
-      var dt=new Date(d.date+'T12:00:00');
-      if(dt<cutoff||dt>now)return;
-      cocoDays[d.date]=d.p;
-    });
-    // Build day list
-    var dayList=[];
-    for(var di=29;di>=0;di--){
-      var dDate=new Date(now.getTime()-di*86400000);
-      var dStr=mtDateStr(dDate);
-      dayList.push({date:dStr,kapa:kapaDays[dStr]||0,coco:cocoDays[dStr]!==undefined?cocoDays[dStr]:null});
-    }
-    kapaTotal=dayList.reduce(function(a,d){return a+d.kapa;},0);
-    var cocoSum=0,cocoCnt=0;
-    dayList.forEach(function(d){if(d.coco!==null){cocoSum+=d.coco;cocoCnt++;}});
-    cocoTotal=cocoCnt>0?cocoSum:null;
-
-    // Per-day average for bars
-    bars=dayList.map(function(d){
-      var vals=[];
-      if(d.kapa>0||kapaObs.length)vals.push(d.kapa);
-      if(d.coco!==null)vals.push(d.coco);
-      var v=vals.length>0?vals.reduce(function(a,b){return a+b;})/vals.length:d.kapa;
-      var dateParts=d.date.split('-');
-      return{label:(parseInt(dateParts[1]))+'/'+parseInt(dateParts[2]),val:v};
-    });
-    // Calculate average total
-    if(cocoTotal!==null&&kapaObs.length){
-      total=(kapaTotal+cocoTotal)/2;
-    } else if(cocoTotal!==null){
-      total=cocoTotal;
-    } else {
-      total=kapaTotal;
-    }
-
+    Object.keys(kapaDailyMap).forEach(function(dk){if(parseInt(dk.slice(0,4))===yr)kapaTotal+=kapaDailyMap[dk];});
+    Object.keys(cocoDailyMap).forEach(function(dk){if(parseInt(dk.slice(0,4))===yr){cocoTotal+=cocoDailyMap[dk];cocoCount++;}});
+    document.getElementById('mocard').classList.remove('hidden');
+    renderMonthly(yr);
   } else {
-    // 24h/3d/7d — KAPA only
     document.getElementById('mocard').classList.add('hidden');
-    var cutoff=new Date(now.getTime()-hoursBack*3600000);
-    var filtered=kapaObs.filter(function(o){return o.ts>=cutoff&&o.ts<=now;});
-    total=filtered.reduce(function(a,o){return a+o.p;},0);
-    var bsize=Math.max(1,Math.floor(filtered.length/barN));
-    for(var b=0;b<barN;b++){
-      var s=b*bsize,e=Math.min(s+bsize,filtered.length);
-      if(s>=filtered.length){bars.push({label:'',val:0});continue;}
-      var bTot=0;for(var k=s;k<e;k++)bTot+=filtered[k].p;
-      var mt=toMT(filtered[s].ts);
-      bars.push({label:period==='24h'?mt.hr+'h':((mt.mo+1)+'/'+mt.dy),val:bTot});
-    }
+    dateList.forEach(function(dk){
+      kapaTotal+=(kapaDailyMap[dk]||0);
+      if(cocoDailyMap[dk]!==undefined){cocoTotal+=cocoDailyMap[dk];cocoCount++;}
+    });
   }
 
-  // Update dual station display
-  if(useDual){
-    document.getElementById('kapa-val').innerHTML=(kapaTotal!==null?kapaTotal.toFixed(2):'—')+'<span class="su">in</span>';
-    document.getElementById('coco-val').innerHTML=(cocoTotal!==null?cocoTotal.toFixed(2):'—')+'<span class="su">in</span>';
-  }
+  var hasKapa=Object.keys(kapaDailyMap).length>0;
+  var hasCoco=cocoCount>0;
+  var avgTotal=0;
+  if(hasKapa&&hasCoco){avgTotal=(kapaTotal+cocoTotal)/2;}
+  else if(hasKapa){avgTotal=kapaTotal;}
+  else{avgTotal=cocoTotal;}
 
-  document.getElementById('bignum').innerHTML=total.toFixed(2)+'<span class="u">in</span>';
-  var PL={
-    '24h':'Last 24 hours · KAPA gauge',
-    '3d':'Last 3 days · KAPA gauge',
-    '7d':'Last 7 days · KAPA gauge',
-    '30d':'Last 30 days · 2-station average',
-    '1y':'Year to date '+now.getFullYear()+' · 2-station average'
-  };
-  document.getElementById('plbl').textContent=PL[period];
-  document.getElementById('main-lbl').textContent=useDual?'Total Precipitation · 2 Stations':'Total Precipitation · KAPA ASOS Gauge';
+  // Update station boxes
+  document.getElementById('kapa-val').innerHTML=(hasKapa?kapaTotal.toFixed(2):'—')+'<span class="su">in</span>';
+  document.getElementById('coco-val').innerHTML=(hasCoco?cocoTotal.toFixed(2):'—')+'<span class="su">in</span>';
+  document.getElementById('kapa-sub').textContent=hasKapa?'ASOS daily gauge':'No data';
+  document.getElementById('coco-sub').textContent=hasCoco?'CoCoRaHS daily':'No report yet';
+  document.getElementById('bignum').innerHTML=avgTotal.toFixed(2)+'<span class="u">in</span>';
+  document.getElementById('plbl').textContent=periodLabel+(hasKapa&&hasCoco?' · 2-station avg':hasKapa?' · KAPA only':' · CO-AR-164 only');
+  document.getElementById('main-lbl').textContent='Total Precipitation · '+periodLabel;
   document.getElementById('ct').textContent=ctLbl;
 
-  // Legend
-  legend.innerHTML='';
-  if(useDual){
-    legend.innerHTML='<div class="src-item"><div class="src-dot src-kapa"></div>KAPA Airport</div>'
-      +'<div class="src-item"><div class="src-dot src-cocorahs"></div>CO-AR-164 (near you)</div>'
-      +'<div class="src-item"><div class="src-dot src-avg"></div>Averaged total shown above</div>';
+  // Build bar data
+  var barData=[];
+  if(period==='1y'){
+    var yr=now.getFullYear();
+    for(var m=0;m<12;m++){
+      var moStr=yr+'-'+pad(m+1);
+      var kv=0,cv=0,cc=0;
+      Object.keys(kapaDailyMap).forEach(function(dk){if(dk.slice(0,7)===moStr)kv+=kapaDailyMap[dk];});
+      Object.keys(cocoDailyMap).forEach(function(dk){if(dk.slice(0,7)===moStr){cv+=cocoDailyMap[dk];cc++;}});
+      barData.push({label:MO[m],kapa:kv,coco:cc>0?cv:null});
+    }
   } else {
-    legend.innerHTML='<div class="src-item"><div class="src-dot src-kapa"></div>KAPA ASOS hourly gauge</div>';
+    dateList.forEach(function(dk){
+      var parts=dk.split('-');
+      var lbl=(parseInt(parts[1]))+'/'+parseInt(parts[2]);
+      barData.push({label:lbl,kapa:kapaDailyMap[dk]||0,coco:cocoDailyMap[dk]!==undefined?cocoDailyMap[dk]:null});
+    });
   }
-
-  renderBars(bars);
+  renderBars(barData);
 }
 
-// ── Bar chart ─────────────────────────────────────────────────────
-function renderBars(bars){
+// ── Bar chart (dual bars per bucket) ────────────────────────────
+function renderBars(data){
   var chart=document.getElementById('chart');chart.innerHTML='';
-  var maxV=0;bars.forEach(function(b){if(b.val>maxV)maxV=b.val;});if(!maxV)maxV=0.001;
-  bars.forEach(function(bar,i){
-    var pct=bar.val>0?Math.max((bar.val/maxV)*100,4):1;
-    var w=document.createElement('div');w.className='bw';
-    var b=document.createElement('div');b.className='bar';
-    if(bar.val===0){b.style.height='2px';b.style.background='var(--border)';b.style.opacity='.5';}
-    else b.style.height=pct+'%';
+  var maxV=0;
+  data.forEach(function(d){
+    if(d.kapa>maxV)maxV=d.kapa;
+    if(d.coco!==null&&d.coco>maxV)maxV=d.coco;
+  });
+  if(!maxV)maxV=0.001;
+
+  data.forEach(function(d){
+    var g=document.createElement('div');g.className='bgroup';
+
+    // Tooltip
     var tip=document.createElement('div');tip.className='bar-tooltip';
-    tip.textContent=(bar.label?bar.label+': ':'')+bar.val.toFixed(2)+'"';
-    b.appendChild(tip);
-    var l=document.createElement('div');l.className='blbl';l.textContent=bar.label;
-    w.appendChild(b);w.appendChild(l);
-    w.addEventListener('click',function(e){e.stopPropagation();if(activeBar===w){clearActive();return;}clearActive();activeBar=w;w.classList.add('active');});
-    chart.appendChild(w);
+    var tipLines=[d.label];
+    tipLines.push('KAPA: '+d.kapa.toFixed(2)+'"');
+    if(d.coco!==null)tipLines.push('CO-AR-164: '+d.coco.toFixed(2)+'"');
+    else tipLines.push('CO-AR-164: no report');
+    tip.innerHTML=tipLines.join('<br>');
+
+    var pair=document.createElement('div');pair.className='bpair';
+
+    // KAPA bar
+    var bk=document.createElement('div');
+    bk.className='bar kapa';
+    if(d.kapa===0){bk.classList.add('zero');bk.style.height='2px';}
+    else bk.style.height=Math.max((d.kapa/maxV)*100,4)+'%';
+    pair.appendChild(bk);
+
+    // CoCoRaHS bar
+    var bc=document.createElement('div');
+    bc.className='bar coco';
+    if(d.coco===null||d.coco===0){bc.classList.add('zero');bc.style.height='2px';}
+    else bc.style.height=Math.max((d.coco/maxV)*100,4)+'%';
+    pair.appendChild(bc);
+
+    var lbl=document.createElement('div');lbl.className='blbl';lbl.textContent=d.label;
+
+    g.appendChild(tip);
+    g.appendChild(pair);
+    g.appendChild(lbl);
+
+    g.addEventListener('click',function(e){
+      e.stopPropagation();
+      if(activeBar===g){clearActive();return;}
+      clearActive();activeBar=g;g.classList.add('active');
+    });
+    chart.appendChild(g);
   });
 }
 
 // ── Annual card ──────────────────────────────────────────────────
 function renderAnnual(){
-  var now=new Date(),yr=now.getFullYear(),ytd=0;
-  // KAPA YTD from hourly
-  var kapaYTD=0;
-  kapaObs.forEach(function(o){if(toMT(o.ts).yr===yr)kapaYTD+=o.p;});
-  // CoCoRaHS YTD from daily
-  var cocoYTD=0;
-  cocoDaily.forEach(function(d){var m=d.date.match(/^(\d{4})/);if(m&&parseInt(m[1])===yr)cocoYTD+=d.p;});
-
-  var n=0;
-  if(kapaObs.length){ytd+=kapaYTD;n++;}
-  if(cocoDaily.length){ytd+=cocoYTD;n++;}
+  var now=new Date(),yr=now.getFullYear(),kapaYTD=0,cocoYTD=0,cocoN=0;
+  Object.keys(kapaDailyMap).forEach(function(dk){if(parseInt(dk.slice(0,4))===yr)kapaYTD+=kapaDailyMap[dk];});
+  Object.keys(cocoDailyMap).forEach(function(dk){if(parseInt(dk.slice(0,4))===yr){cocoYTD+=cocoDailyMap[dk];cocoN++;}});
+  var n=0,ytd=0;
+  if(Object.keys(kapaDailyMap).length){ytd+=kapaYTD;n++;}
+  if(cocoN>0){ytd+=cocoYTD;n++;}
   if(n>1)ytd/=n;
-
   var start=new Date(yr,0,1);
   var doy=Math.floor((now-start)/86400000)+1;
   var diy=isLeap(yr)?366:365;
@@ -630,19 +570,47 @@ function renderAnnual(){
   document.getElementById('apm').style.left=Math.min((doy/diy)*100,97)+'%';
 }
 
-// ── Monthly table ─────────────────────────────────────────────────
-function renderMonthly(mo){
+// ── Monthly breakdown (dual bars via CSS rows) ────────────────────
+function renderMonthly(yr){
   var list=document.getElementById('molist');list.innerHTML='';
-  var maxV=0;mo.forEach(function(v){if(v>maxV)maxV=v;});if(!maxV)maxV=0.001;
-  mo.forEach(function(v,m){
+  var maxV=0;
+  for(var m=0;m<12;m++){
+    var moStr=yr+'-'+pad(m+1);
+    var kv=0,cv=0,cc=0;
+    Object.keys(kapaDailyMap).forEach(function(dk){if(dk.slice(0,7)===moStr)kv+=kapaDailyMap[dk];});
+    Object.keys(cocoDailyMap).forEach(function(dk){if(dk.slice(0,7)===moStr){cv+=cocoDailyMap[dk];cc++;}});
+    if(kv>maxV)maxV=kv;
+    if(cc>0&&cv>maxV)maxV=cv;
+  }
+  if(!maxV)maxV=0.001;
+
+  for(var m=0;m<12;m++){
+    var moStr=yr+'-'+pad(m+1);
+    var kv=0,cv=0,cc=0;
+    Object.keys(kapaDailyMap).forEach(function(dk){if(dk.slice(0,7)===moStr)kv+=kapaDailyMap[dk];});
+    Object.keys(cocoDailyMap).forEach(function(dk){if(dk.slice(0,7)===moStr){cv+=cocoDailyMap[dk];cc++;}});
+
     var row=document.createElement('div');row.className='mrow';
     var nm=document.createElement('div');nm.className='mn';nm.textContent=MO[m];
-    var tr=document.createElement('div');tr.className='mt';
-    var fi=document.createElement('div');fi.className='mf';fi.style.width=((v/maxV)*100)+'%';
-    tr.appendChild(fi);
-    var vl=document.createElement('div');vl.className='mv';vl.textContent=v.toFixed(2)+'"';
-    row.appendChild(nm);row.appendChild(tr);row.appendChild(vl);list.appendChild(row);
-  });
+
+    var mbars=document.createElement('div');mbars.className='mbars';
+    // KAPA bar
+    var kt=document.createElement('div');kt.className='mtrack';
+    var kf=document.createElement('div');kf.className='mfill-kapa';kf.style.width=((kv/maxV)*100)+'%';
+    kt.appendChild(kf);mbars.appendChild(kt);
+    // CoCoRaHS bar
+    var ct2=document.createElement('div');ct2.className='mtrack';
+    var cf=document.createElement('div');cf.className='mfill-coco';cf.style.width=(cc>0?(cv/maxV)*100:0)+'%';
+    ct2.appendChild(cf);mbars.appendChild(ct2);
+
+    var mvals=document.createElement('div');mvals.className='mvals';
+    var kvEl=document.createElement('div');kvEl.className='mv kapa';kvEl.textContent=kv.toFixed(2)+'"';
+    var cvEl=document.createElement('div');cvEl.className='mv coco';cvEl.textContent=cc>0?cv.toFixed(2)+'"':'—';
+    mvals.appendChild(kvEl);mvals.appendChild(cvEl);
+
+    row.appendChild(nm);row.appendChild(mbars);row.appendChild(mvals);
+    list.appendChild(row);
+  }
 }
 
 // ── NWS Forecast ─────────────────────────────────────────────────
@@ -670,14 +638,14 @@ function renderForecast(periods){
     grid.appendChild(el);
   });
 }
-function wxIcon(desc,pop){
-  desc=(desc||'').toLowerCase();
-  if(desc.indexOf('thunder')>=0)return'⛈️';
-  if(desc.indexOf('snow')>=0)return'❄️';
-  if(desc.indexOf('rain')>=0||pop>=60)return'🌧️';
-  if(desc.indexOf('shower')>=0||pop>=30)return'🌦️';
-  if(desc.indexOf('overcast')>=0||desc.indexOf('cloud')>=0)return'☁️';
-  if(desc.indexOf('partly')>=0||desc.indexOf('mostly cloudy')>=0)return'⛅';
+function wxIcon(d,p){
+  d=(d||'').toLowerCase();
+  if(d.indexOf('thunder')>=0)return'⛈️';
+  if(d.indexOf('snow')>=0)return'❄️';
+  if(d.indexOf('rain')>=0||p>=60)return'🌧️';
+  if(d.indexOf('shower')>=0||p>=30)return'🌦️';
+  if(d.indexOf('overcast')>=0||d.indexOf('cloud')>=0)return'☁️';
+  if(d.indexOf('partly')>=0)return'⛅';
   return'☀️';
 }
 
